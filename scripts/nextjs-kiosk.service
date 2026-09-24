@@ -1,0 +1,16 @@
+[Unit]
+Description=Next.js Ubuntu USB Boot Kiosk Server
+After=network.target
+
+[Service]
+Type=simple
+User=kiosk
+WorkingDirectory=/home/kiosk/app_boot
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=3
+Environment=NODE_ENV=production
+Environment=PORT=3000
+
+[Install]
+WantedBy=multi-user.target
