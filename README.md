@@ -29,14 +29,30 @@ Sebuah sistem aplikasi Kiosk modern berbasis **Next.js 14**, dilengkapi dengan *
 
 ---
 
-## 🚀 Panduan Booting USB
+## 🚀 Panduan Menjalankan di Live USB (100% Offline / Zero Internet)
 
-Projek ini dilengkapi dengan skrip otomatis untuk 2 skenario deployment:
+Saat Anda melakukan booting dari flashdisk **Ventoy** (pilih `Try or Install Xubuntu` ➡️ `Try Xubuntu (safe graphics)`), buka terminal (`Ctrl + Alt + T`) lalu jalankan perintah ini:
 
-### 1. Mode Xubuntu Desktop (Live USB / Demo Cepat)
-Cocok untuk demo di memori RAM tanpa menginstal apa pun ke harddisk laptop/PC:
 ```bash
-cd scripts
+# 1. Buka & Mount partisi Flashdisk Ventoy
+sudo losetup -r /dev/loop99 /dev/sda1 2>/dev/null || true
+sudo mkdir -p /mnt/usb
+sudo mount -t exfat -o ro /dev/loop99 /mnt/usb 2>/dev/null || sudo mount -o ro /dev/sda1 /mnt/usb
+
+# 2. Jalankan Kiosk 100% Offline (Menggunakan Browser Bawaan & Node.js Portable)
+sudo /mnt/usb/START_OFFLINE_KIOSK.sh
+```
+
+---
+
+## ⚙️ Panduan Mode Deployment Lainnya
+
+Projek ini juga dilengkapi dengan skrip otomatis untuk kebutuhan khusus:
+
+### 1. Mode Xubuntu Desktop (Live Session / Terhubung WiFi)
+Jika perangkat terhubung ke internet dan ingin memasang Chromium otomatis:
+```bash
+cd app_boot/scripts
 chmod +x setup_xubuntu_desktop.sh
 sudo ./setup_xubuntu_desktop.sh
 ```
@@ -44,16 +60,10 @@ sudo ./setup_xubuntu_desktop.sh
 ### 2. Mode Ubuntu Server (Dedicated Standalone Kiosk)
 Mengubah Ubuntu Server menjadi mesin Kiosk mandiri yang otomatis login dan membuka Next.js Fullscreen saat PC dihidupkan:
 ```bash
-cd scripts
+cd app_boot/scripts
 chmod +x setup_ubuntu_server.sh
 sudo ./setup_ubuntu_server.sh
 sudo reboot
-```
-
-### 3. Mode 100% Offline (Zero Downloads)
-Jalankan file master di root flashdisk:
-```bash
-./START_OFFLINE_KIOSK.sh
 ```
 
 ---
@@ -77,4 +87,4 @@ npm start
 ---
 
 ## 📄 Lisensi
-MIT License © 2026 lopingbest
+MIT License © 2026 [lopingbest](https://github.com/lopingbest)
